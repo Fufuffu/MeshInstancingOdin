@@ -1,0 +1,19 @@
+# Game hot reload dll
+game_*.dll
+game.dll
+game.exp
+game.lib
+game.pdb
+
+# Main with hotreload
+main.exe
+main.pdb
+
+# Main release
+main_release.exe
+main_release.pdb
+game_release.exe
+
+# Test executable
+test.exe
+test.json
