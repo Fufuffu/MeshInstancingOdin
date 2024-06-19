@@ -2,7 +2,7 @@
 
 # from: https://github.com/karl-zylinski/odin-raylib-hot-reload-game-template
 
-VET="-strict-style -vet-unused -vet-using-stmt -vet-using-param -vet-style -vet-semicolon"
+VET="-strict-style -vet-using-stmt -vet-using-param -vet-style -vet-semicolon"
 
 # NOTE: this is a recent addition to the Odin compiler, if you don't have this command
 # you can change this to the path to the Odin folder that contains vendor, eg: "~/Odin".
@@ -38,12 +38,12 @@ case $(uname) in
 esac
 
 # Build the game.
-odin build . -use-separate-modules -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -debug $VET
+odin build game -use-separate-modules -extra-linker-flags:"$EXTRA_LINKER_FLAGS" -show-timings -define:RAYLIB_SHARED=true -build-mode:dll -out:game_tmp$DLL_EXT -debug $VET
 
 # Need to use a temp file on Linux because it first writes an empty `game.so`, which the game will load before it is actually fully written.
 mv game_tmp$DLL_EXT game$DLL_EXT
 
 # Do not build the game.bin if it is already running.
 if ! pgrep game.bin > /dev/null; then
-    odin build main_hot_reload -use-separate-modules -out:game.bin $VET -debug
+    odin build main -use-separate-modules -out:game.bin $VET -debug
 fi

@@ -23,8 +23,8 @@ GameMemory :: struct {
 
 game_memory: ^GameMemory
 
-SCREEN_WIDTH: i32 = 1792
-SCREEN_HEIGHT: i32 = 1008
+SCREEN_WIDTH: i32 = 1280
+SCREEN_HEIGHT: i32 = 720
 
 camera: rl.Camera3D = {
     position   = rl.Vector3{-125, 125, -125},
@@ -133,7 +133,7 @@ game_draw :: proc() {
     rl.BeginMode3D(camera)
     rl.DrawMesh(game_memory.cube_mesh, game_memory.mat_default, rl.MatrixTranslate(-10, 0, 0))
     rl.DrawMeshInstanced(game_memory.cube_mesh, game_memory.mat_instanced, raw_data(&game_memory.transforms), MAX_INSTANCES)
-    rl.DrawMesh(game_memory.cube_mesh, game_memory.mat_default, rl.MatrixTranslate(10, 0, 0))
+    //rl.DrawMesh(game_memory.cube_mesh, game_memory.mat_default, rl.MatrixTranslate(10, 0, 0))
     rl.EndMode3D()
 
     rl.DrawFPS(10, 10)

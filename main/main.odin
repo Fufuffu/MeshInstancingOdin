@@ -63,11 +63,11 @@ main :: proc() {
             break
         }
 
-        dll_time, dll_time_err := os.last_write_time_by_name(
-            fmt.aprintf("%s.dll", given_dll_name, allocator = context.temp_allocator),
+        mod_time, mod_time_error := os.last_write_time_by_name(
+            strings.join({given_dll_name, DLL_EXT}, "", allocator = context.temp_allocator),
         )
-
-        reload := (dll_time_err == os.ERROR_NONE && game_api.dll_time != dll_time)
+        
+        reload := (mod_time_error == os.ERROR_NONE && game_api.dll_time != mod_time)
 
         if reload {
             new_api, new_api_ok := load_game_api(game_api_version)

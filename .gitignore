@@ -14,6 +14,13 @@ main_release.exe
 main_release.pdb
 game_release.exe
 
+# linux libs
+linux/
+
+# Linux game
+game*.bin
+game*.so
+
 # Test executable
 test.exe
 test.json
