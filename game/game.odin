@@ -7,12 +7,13 @@ import rl "vendor:raylib"
 
 DEV_BUILD :: #config(DEV_BUILD, false)
 
-MAX_INSTANCES :: 100000
+MAX_INSTANCES :: 10000
 
 GameMemory :: struct {
     delta_time_scale: f32,
     cube_mesh:        rl.Mesh,
-    transforms:       [MAX_INSTANCES]en.Float_16,
+    //transforms:       [MAX_INSTANCES]en.Float_16,
+    transforms:       [MAX_INSTANCES]rl.Matrix,
     shader:           rl.Shader,
     lights:           [en.MAX_LIGHTS]en.Light,
     light_count:      i32,
@@ -63,7 +64,8 @@ game_init :: proc() {
         angle := f32(rl.GetRandomValue(0, 10)) * rl.DEG2RAD
         rotation := rl.MatrixRotate(axis, angle)
 
-        game_memory.transforms[i] = en.Float_16{rl.MatrixToFloatV(rotation * translation)}
+        //game_memory.transforms[i] = en.Float_16{rl.MatrixToFloatV(rotation * translation)}
+        game_memory.transforms[i] = rotation * translation
     }
 
     // Load instanced lighting shaders
@@ -103,7 +105,7 @@ game_init :: proc() {
     game_memory.mat_default = rl.LoadMaterialDefault()
     game_memory.mat_default.maps[rl.MaterialMapIndex.ALBEDO].color = rl.BLUE
 
-    rl.SetTargetFPS(0)
+    rl.SetTargetFPS(60)
 }
 
 @(export)
@@ -130,7 +132,8 @@ game_draw :: proc() {
 
     rl.BeginMode3D(camera)
     rl.DrawMesh(game_memory.cube_mesh, game_memory.mat_default, rl.MatrixTranslate(-10, 0, 0))
-    en.draw_mesh_instanced(game_memory.cube_mesh, game_memory.mat_instanced, raw_data(&game_memory.transforms), MAX_INSTANCES)
+    rl.DrawMeshInstanced(game_memory.cube_mesh, game_memory.mat_instanced, raw_data(&game_memory.transforms), MAX_INSTANCES)
+    rl.DrawMesh(game_memory.cube_mesh, game_memory.mat_default, rl.MatrixTranslate(10, 0, 0))
     rl.EndMode3D()
 
     rl.DrawFPS(10, 10)
